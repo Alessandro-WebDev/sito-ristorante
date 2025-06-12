@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prenotazioni - Il Mio Ristorante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #231815; /* Lo sfondo della pagina rimane invariato */
+      color: #000;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      z-index: 1001;
+      cursor: default;
+      user-select: none;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .navbar.light {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
+    .navbar.dark {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .navbar > * {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .navbar a {
+      font-weight: 600;
+      padding: 6px 12px;
+    }
+
+    .navbar .separator {
+      width: 1px;
+      height: 24px;
+      background-color: currentColor;
+      opacity: 0.4;
+    }
+
+    .menu-toggle img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    /* MENU A SCOMPARSA */
+    .side-menu {
+      position: fixed;
+      top: 70px;
+      left: 20px;
+      border-radius: 12px;
+      padding: 15px 20px;
+      display: none; /* Nasconde il menu di default */
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .side-menu.light {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
+    .side-menu.dark {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .side-menu a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 8px 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+      color: inherit;
+    }
+
+    .side-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Classe per mostrare il menu */
+    .side-menu.show {
+      display: flex;
+    }
+
+    /* FORM CENTRALE */
+    .container {
+      max-width: 500px;
+      margin: 120px auto 40px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .container.dark {
+      background: #2e2e2e; /* Colore distinto dallo sfondo */
+      color: white;
+    }
+
+    .container.dark input,
+    .container.dark select,
+    .container.dark textarea {
+      background: #444;
+      color: white;
+      border: 1px solid #777;
+    }
+
+    .container.dark button {
+      background-color: #fff;
+      color: #2e2e2e;
+    }
+
+    .container.dark button:hover {
+      background-color: #ddd;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      appearance: none;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group button {
+      background-color: #231815;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .form-group button:hover {
+      background-color: #3a2a25;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar light" id="navbar">
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Apri menu">
+      <img src="foto_home/trelinee.png" alt="Menu" />
+    </button>
+
+    <div class="separator"></div>
+
+    <a href="home.html">Il Mio Ristorante</a>
+
+    <div class="separator"></div>
+
+    <button onclick="toggleTheme()" aria-label="Cambia tema">🌓</button>
+  </div>
+
+  <!-- MENU A SCOMPARSA -->
+  <nav class="side-menu light" id="sideMenu">
+    <a href="menu.html">Menu</a>
+    <a href="reservation.html">Prenotazioni</a>
+    <a href="about.html">Chi siamo</a>
+    <a href="contact.html">Contatti</a>
+  </nav>
+
+  <!-- FORM CENTRALE -->
+  <div class="container" id="container">
+    <h2>Prenota un tavolo</h2>
+    <form>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Numero di telefono:</label>
+        <input type="tel" id="telefono" required>
+      </div>
+
+      <div class="form-group">
+        <label for="data">Data prenotazione:</label>
+        <input type="date" id="data" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ora">Ora prenotazione:</label>
+        <input type="time" id="ora" required>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Prenota ora</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.getElementById('navbar').classList.toggle('dark'); // Cambia colore navbar
+      document.getElementById('container').classList.toggle('dark'); // Cambia colore riquadro prenotazione
+      document.getElementById('sideMenu').classList.toggle('dark');
+    }
+
+
+    function toggleMenu() {
+      document.getElementById('sideMenu').classList.toggle('show');
+    }
+  </script>
+
+</body>
+</html>

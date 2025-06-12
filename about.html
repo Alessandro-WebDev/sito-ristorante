@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chi Siamo - Il Mio Ristorante</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background-color: rgb(37,27,25); /* beige caldo */
+      color: black;
+    }
+
+    /* NAVBAR A SINISTRA */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      right: auto;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      z-index: 1001;
+      cursor: default;
+      user-select: none;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .navbar.light {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
+    .navbar.dark {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .navbar > * {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .navbar a {
+      font-weight: 600;
+      padding: 6px 12px;
+    }
+
+    .navbar .separator {
+      width: 1px;
+      height: 24px;
+      background-color: currentColor;
+      opacity: 0.4;
+    }
+
+    .menu-toggle img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    /* MENU A SCOMPARSA */
+    .side-menu {
+      position: fixed;
+      top: 70px;
+      right: auto;
+      left: 20px;
+      background: inherit;
+      border-radius: 12px;
+      padding: 15px 20px;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    }
+
+    .side-menu.light {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
+    .side-menu.dark {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .side-menu a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 8px 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+      color: inherit;
+    }
+
+    .side-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .side-menu.show {
+      display: flex;
+    }
+
+    /* PARAGRAFO CENTRALE */
+    .about-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .about-box {
+      background-color: black;
+      color: white;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 800px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+    .about-box.light {
+      background-color: white;
+      color: black;
+    }
+
+    .about-box.dark {
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar light" id="navbar">
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Apri menu">
+      <img src="foto_home/trelinee.png" alt="Menu" />
+    </button>
+
+    <div class="separator"></div>
+
+    <a href="home.html">Il Mio Ristorante</a>
+
+    <div class="separator"></div>
+
+    <button onclick="toggleTheme()" aria-label="Cambia tema">🌓</button>
+  </div>
+
+  <!-- MENU A SCOMPARSA -->
+  <nav class="side-menu light" id="sideMenu">
+    <a href="menu.html">Menu</a>
+    <a href="reservation.html">Prenotazioni</a>
+    <a href="about.html">Chi siamo</a>
+    <a href="contact.html">Contatti</a>
+  </nav>
+
+  <!-- PARAGRAFO CENTRALE -->
+  <div class="about-container">
+    <div class="about-box light" id="aboutBox">
+      <p>
+        <!-- Testo da modificare -->
+        Benvenuti nel nostro ristorante! Qui troverete l'equilibrio perfetto tra tradizione e innovazione. Ogni piatto racconta una storia, ogni dettaglio è curato con amore e passione. A breve aggiungeremo tutte le informazioni sulla nostra storia, i valori e il nostro staff.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const navbar = document.getElementById('navbar');
+      const sideMenu = document.getElementById('sideMenu');
+      const aboutBox = document.getElementById('aboutBox');
+
+      const isLight = navbar.classList.contains('light');
+
+      if (isLight) {
+        navbar.classList.replace('light', 'dark');
+        sideMenu.classList.replace('light', 'dark');
+        aboutBox.classList.replace('light', 'dark');
+      } else {
+        navbar.classList.replace('dark', 'light');
+        sideMenu.classList.replace('dark', 'light');
+        aboutBox.classList.replace('dark', 'light');
+      }
+    }   
+
+
+    function toggleMenu() {
+      const menu = document.getElementById('sideMenu');
+      menu.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

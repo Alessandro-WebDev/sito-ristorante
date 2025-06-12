@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu - Il Mio Ristorante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #231815;
+      color: #000;
+      display: flex;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      z-index: 1001;
+      backdrop-filter: none;
+      cursor: default;
+      user-select: none;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .navbar.light {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
+    .navbar.dark {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .navbar > * {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .navbar a {
+      font-weight: 600;
+      padding: 6px 12px;
+    }
+
+    .navbar .separator {
+      width: 1px;
+      height: 24px;
+      background-color: currentColor;
+      opacity: 0.4;
+    }
+
+    .menu-toggle img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    /* MENU A SCOMPARSA */
+    .side-menu {
+      position: fixed;
+      top: 70px;
+      left: 20px;
+      background: inherit;
+      border-radius: 12px;
+      padding: 15px 20px;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+      min-width: 180px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .side-menu.light {
+      background: rgba(255, 255, 255, 0.9);
+      color: black;
+    }
+
+    .side-menu.dark {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      backdrop-filter: blur(5px);
+    }
+
+    .side-menu a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 8px 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+      color: inherit;
+    }
+
+    .side-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .side-menu.show {
+      display: flex;
+    }
+
+    /* MENU PRINCIPALE */
+    .menu-container {
+  margin: 100px auto;
+  max-width: 600px;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: #fff; /* Imposta il colore iniziale a bianco */
+  color: black;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+/* Tema chiaro */
+.menu-container.light {
+  background: #fff;
+  color: black;
+}
+
+/* Tema scuro */
+.menu-container.dark {
+  background: #000;
+  color: white;
+}
+
+/* Linee divisorie */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-bottom: 1px solid #ddd; /* Linea chiara in modalità chiara */
+  transition: border-color 0.4s;
+}
+
+/* Cambia colore della linea in modalità scura */
+.menu-container.dark .menu-item {
+  border-bottom: 1px solid #fff; /* Linea bianca in modalità scura */
+}
+
+
+    .menu-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .menu-item .details {
+      display: flex;
+      align-items: center;
+      justify-content: space-between; /* Nome e prezzo sulla stessa riga */
+      width: 100%;
+      gap: 30px; /* Aggiunge spazio tra nome e prezzo */
+    }
+
+    .menu-item .name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      flex-grow: 1; /* Permette al nome di occupare più spazio */
+    }
+
+    .menu-item .price {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #030303;
+      white-space: nowrap; /* Evita che il prezzo vada a capo */
+    }
+
+    /* CASSELLA INGREDIENTI */
+    .ingredients {
+      display: none;
+      position: absolute;
+      top: 25px;
+      left: 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      width: 200px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .name:hover .ingredients {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar light" id="navbar">
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Apri menu">
+      <img src="foto_home/trelinee.png" alt="Menu">
+    </button>
+
+    <div class="separator"></div>
+
+    <a href="home.html">Il Mio Ristorante</a>
+
+    <div class="separator"></div>
+
+    <button onclick="toggleTheme()" aria-label="Cambia tema">🌓</button>
+  </div>
+
+  <!-- MENU A SCOMPARSA -->
+  <nav class="side-menu light" id="sideMenu">
+    <a href="menu.html">Menu</a>
+    <a href="reservation.html">Prenotazioni</a>
+    <a href="about.html">Chi siamo</a>
+    <a href="contact.html">Contatti</a>
+  </nav>
+
+  <!-- MENU PRINCIPALE -->
+  <div class="menu-container">
+    <h2>Il Nostro Menu</h2>
+
+    <div class="menu-item">
+      <img src="foto_home/carbonara.jpeg" alt="Pasta">
+      <div class="details">
+        <div class="name">
+          Pasta Carbonara
+          <div class="ingredients">Uova, guanciale, pecorino, pepe nero</div>
+        </div>
+        <div class="price">€12.00</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+      <img src="foto_home/margherita.jpeg" alt="Pizza">
+      <div class="details">
+        <div class="name">
+          Pizza Margherita
+          <div class="ingredients">Pomodoro, mozzarella, basilico</div>
+        </div>
+        <div class="price">€10.00</div>
+      </div>
+    </div>
+
+    <div class="menu-item">
+      <img src="foto_home/tiramisu.jpeg" alt="Tiramisù">
+      <div class="details">
+        <div class="name">
+          Tiramisù
+          <div class="ingredients">Mascarpone, caffè, savoiardi, cacao</div>
+        </div>
+        <div class="price">€6.00</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+  const navbar = document.getElementById('navbar');
+  const sideMenu = document.getElementById('sideMenu');
+  const menuContainer = document.querySelector('.menu-container'); // Seleziona il riquadro del menu
+
+  navbar.classList.toggle('dark');
+  sideMenu.classList.toggle('dark');
+  menuContainer.classList.toggle('dark'); // Cambia tema anche al riquadro del menu
+}
+
+
+
+    function toggleMenu() {
+      document.getElementById('sideMenu').classList.toggle('show');
+    }
+  </script>
+
+</body>
+</html>
